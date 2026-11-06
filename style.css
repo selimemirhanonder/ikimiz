@@ -1,0 +1,223 @@
+/* Konsept: iki renk iki kişi. Sen pembe, partnerin mavi; kesişim ne kadar büyükse o kadar tanıyorsunuz. */
+:root {
+  --bg: #F1EFF4;
+  --surface: #FFFFFF;
+  --ink: #1D1A24;
+  --muted: #6C6676;
+  --line: #DEDAE5;
+  --a: #E0457B;          /* sen */
+  --b: #2E6BE6;          /* partnerin */
+  --a-soft: #FBE3EC;
+  --b-soft: #E2EBFC;
+  --ok: #1F9D6B;
+  --bad: #C8463E;
+  --font-display: "Gloock", "Georgia", "Times New Roman", serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 18px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15131A;
+    --surface: #211E28;
+    --ink: #F2EFF6;
+    --muted: #A39DAE;
+    --line: #34303D;
+    --a: #FF6B9A;
+    --b: #6C9BFF;
+    --a-soft: #3A2030;
+    --b-soft: #1E2A44;
+    --ok: #4CC796;
+    --bad: #F07B72;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+main {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100%;
+  padding-block: max(28px, env(safe-area-inset-top, 0px)) max(32px, env(safe-area-inset-bottom, 0px));
+  padding-left: max(18px, env(safe-area-inset-left, 0px));
+  padding-right: max(18px, env(safe-area-inset-right, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.loading { color: var(--muted); text-align: center; margin-top: 30vh; }
+
+h1, h2, .display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.4rem, 11vw, 3.3rem); line-height: 1.02; }
+h2 { font-size: 1.9rem; line-height: 1.12; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.eyebrow { font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.a { color: var(--a); }
+.b { color: var(--b); }
+
+/* ---------- Logo ---------- */
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .02em; }
+.brand svg { width: 34px; height: 22px; }
+
+/* ---------- Form elemanları ---------- */
+.stack { display: flex; flex-direction: column; gap: 12px; }
+label.field { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: .9rem; }
+input[type="text"] {
+  font: inherit;
+  font-size: 1.05rem;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  width: 100%;
+}
+input[type="text"]:focus { outline: none; border-color: var(--a); }
+input.code { text-transform: uppercase; letter-spacing: .3em; font-weight: 700; text-align: center; }
+
+.btn {
+  font: inherit;
+  font-weight: 700;
+  font-size: 1.02rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 15px 22px;
+  cursor: pointer;
+  background: var(--ink);
+  color: var(--bg);
+  transition: transform .12s ease, opacity .12s ease;
+  width: 100%;
+}
+.btn:active { transform: scale(.98); }
+.btn:disabled { opacity: .4; cursor: default; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+.btn.link { background: none; color: var(--muted); padding: 8px; width: auto; font-weight: 600; }
+.btn:focus-visible, .opt:focus-visible { outline: 3px solid var(--b); outline-offset: 2px; }
+.row { display: flex; gap: 10px; }
+.row > * { flex: 1; min-width: 0; }
+.divider { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: .85rem; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.error { color: var(--bad); font-weight: 600; font-size: .92rem; }
+.note { font-size: .85rem; color: var(--muted); background: var(--surface); border: 1px dashed var(--line); border-radius: 12px; padding: 10px 12px; }
+
+/* ---------- Ana sayfa ---------- */
+.hero { display: flex; flex-direction: column; gap: 14px; }
+.hero .venn { width: 140px; height: 90px; }
+.how { display: grid; gap: 8px; padding: 0; margin: 0; list-style: none; font-size: .95rem; }
+.how li { display: flex; gap: 10px; align-items: baseline; }
+.how b { font-family: var(--font-display); font-weight: 400; font-size: 1.1rem; min-width: 1.2em; }
+
+/* ---------- Lobi ---------- */
+.codebox {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 22px;
+  text-align: center;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.codebox .code-big { font-family: var(--font-display); font-size: 3.2rem; letter-spacing: .14em; line-height: 1; }
+.players { display: flex; gap: 10px; }
+.player {
+  flex: 1; min-width: 0;
+  border-radius: 14px; padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.player.pa { background: var(--a-soft); }
+.player.pb { background: var(--b-soft); }
+.player .name { font-weight: 700; overflow-wrap: anywhere; }
+.player .status { font-size: .82rem; color: var(--muted); }
+.pulse { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--b); margin-right: 6px; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .25; } }
+
+/* ---------- Soru ekranı ---------- */
+.qhead { display: flex; flex-direction: column; gap: 10px; }
+.qmeta { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: .85rem; font-weight: 600; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: .8rem; font-weight: 700; }
+.chip.self { background: var(--a-soft); color: var(--a); }
+.chip.guess { background: var(--b-soft); color: var(--b); }
+.bar { height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: 99px; transition: width .35s ease; }
+.levels { display: flex; gap: 6px; }
+.levels span { flex: 1; text-align: center; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-top: 6px; border-top: 2px solid var(--line); }
+.levels span.on { color: var(--ink); border-color: currentColor; }
+
+.question { display: flex; flex-direction: column; gap: 8px; }
+.question .about { font-weight: 700; font-size: .95rem; }
+.question h2 { font-size: clamp(1.7rem, 7.4vw, 2.1rem); }
+.options { display: grid; gap: 10px; }
+.opt {
+  font: inherit; font-size: 1.02rem; font-weight: 600; text-align: left;
+  width: 100%;
+  padding: 15px 16px;
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  transition: border-color .12s ease, background .12s ease, transform .12s ease;
+}
+.opt .dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--line); flex: none; }
+.opt:hover { border-color: var(--muted); }
+.opt.picked { border-color: var(--accent); background: var(--accent-soft); }
+.opt.picked .dot { border-color: var(--accent); background: var(--accent); box-shadow: inset 0 0 0 3px var(--surface); }
+.mode-self { --accent: var(--a); --accent-soft: var(--a-soft); }
+.mode-guess { --accent: var(--b); --accent-soft: var(--b-soft); }
+.qfoot { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: .85rem; color: var(--muted); margin-top: auto; }
+
+.enter { animation: enter .32s ease both; }
+@keyframes enter { from { opacity: 0; transform: translateY(8px); } }
+
+/* ---------- Ara ekran / bekleme ---------- */
+.center { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+.center .venn { width: 150px; height: 96px; }
+
+/* ---------- Sonuç ---------- */
+.result-hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
+.result-hero svg { width: 100%; max-width: 300px; height: auto; }
+.score-num { font-family: var(--font-display); font-size: 4.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.score-num small { font-size: .5em; vertical-align: .55em; margin-left: 2px; }
+.verdict { font-size: 1.1rem; font-weight: 600; }
+.compare { background: var(--surface); border-radius: var(--radius); padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
+.compare strong { font-size: 1.05rem; }
+.up { color: var(--ok); }
+.down { color: var(--bad); }
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.split > div { border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.split .num { font-family: var(--font-display); font-size: 2rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.split .lbl { font-size: .85rem; overflow-wrap: anywhere; }
+
+.lvl-bars { display: grid; gap: 10px; }
+.lvl-bars .lv { display: grid; grid-template-columns: 64px 1fr 42px; align-items: center; gap: 10px; font-size: .88rem; font-weight: 600; }
+.lvl-bars .lv span:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.lvl-bars .bar { height: 10px; }
+.lvl-bars .bar > i { background: linear-gradient(90deg, var(--a), var(--b)); }
+
+section.block { display: flex; flex-direction: column; gap: 12px; }
+section.block h3 { margin: 0; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+.qlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.qlist li { background: var(--surface); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+.qlist .q { font-weight: 700; }
+.qlist .pair { display: grid; gap: 6px; font-size: .88rem; }
+.qlist .line { display: grid; grid-template-columns: 20px 1fr; gap: 8px; align-items: start; }
+.qlist .mark { font-weight: 800; text-align: center; }
+.qlist .line.hit .mark { color: var(--ok); }
+.qlist .line.miss .mark { color: var(--bad); }
+.qlist .who { font-weight: 700; }
+
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 999px; font-weight: 600; font-size: .9rem; z-index: 20; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function roomPlayers(code) {
+      return get(/databases/$(database)/documents/rooms/$(code)).data.players;
+    }
+
+    // Oda: en fazla 2 oyuncu, herkes sadece kendini ekleyebilir
+    match /rooms/{code} {
+      allow read: if signedIn() && code.size() == 5;
+
+      allow create: if signedIn()
+        && code.size() == 5
+        && request.resource.data.keys().hasOnly(['createdAt', 'players'])
+        && request.resource.data.players.keys().hasOnly([request.auth.uid]);
+
+      allow update: if signedIn()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['players'])
+        && request.resource.data.players.keys().size() <= 2
+        && request.resource.data.players.diff(resource.data.players).affectedKeys().hasOnly([request.auth.uid]);
+
+      // Cevaplar: sadece odadaki oyuncular okur, herkes sadece kendi belgesini yazar
+      match /answers/{uid} {
+        allow read: if signedIn() && request.auth.uid in roomPlayers(code);
+        allow write: if signedIn()
+          && request.auth.uid == uid
+          && uid in roomPlayers(code);
+      }
+    }
+
+    // Sonuçlar: kıyaslama için herkes okur; her oda bir kez yazılır, değiştirilemez
+    match /results/{code} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.auth.uid in roomPlayers(code)
+        && request.resource.data.keys().hasOnly(['score', 'createdAt'])
+        && request.resource.data.score is int
+        && request.resource.data.score >= 0
+        && request.resource.data.score <= 100;
+    }
+  }
+}

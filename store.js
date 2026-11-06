@@ -22,7 +22,9 @@ async function firebaseStore() {
     import(`${FB}/firebase-firestore.js`),
   ]);
   const app = initializeApp(firebaseConfig);
-  const a = auth.getAuth(app);
+  // Her sekme kendi anonim kimliğini alır (sekme içinde yenilemede korunur)
+  const a = auth.initializeAuth(app, { persistence: auth.browserSessionPersistence });
+  await a.authStateReady();
   const cred = a.currentUser ? { user: a.currentUser } : await auth.signInAnonymously(a);
   const uid = cred.user.uid;
   const db = fs.getFirestore(app);
